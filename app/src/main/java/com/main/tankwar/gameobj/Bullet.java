@@ -6,7 +6,6 @@ import com.main.tankwar.GameView;
 import com.main.tankwar.enums.Direction;
 import com.main.tankwar.enums.MapElementType;
 import com.main.tankwar.utlis.GameUtils;
-
 import java.util.Iterator;
 
 
@@ -50,7 +49,7 @@ public class Bullet extends MoveObject {
     }
     protected Tank hitEnemiesBullet(){
         for(EnemyTank e: gc.enemies){
-            if(e.visible && GameUtils.isColliding(this,e.bullet)){
+            if(e.bullet.visible && GameUtils.isColliding(this,e.bullet)){
                 return e;
             }
         }
