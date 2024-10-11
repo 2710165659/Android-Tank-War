@@ -1,6 +1,7 @@
 package com.main.tankwar.gameobj;
 
 import android.os.VibrationEffect;
+
 import com.main.tankwar.Animations.AnimationManager;
 import com.main.tankwar.GameActivity;
 import com.main.tankwar.GameController;
@@ -14,7 +15,7 @@ public class PlayerTank extends Tank {
 
     public PlayerTank() {
         super(Direction.UP, GameController.playerSpeed, 0, 0, GameView.playerLiveCount - 1);
-        this.size = (int)(GameView.cellSize*1.5);
+        this.size = (int) (GameView.cellSize * 1.5);
         this.visible = true;
         spawnPoint();
     }

@@ -7,10 +7,11 @@ import android.graphics.Rect;
 import java.util.ArrayList;
 
 public class Animation {
-    protected  ArrayList<Bitmap> frames;
+    protected ArrayList<Bitmap> frames;
 
     public int timer; // 计时器
-    private final int x,y,size,frameDuration;
+    private final int x, y, size, frameDuration;
+
     // frameDuration越大播放越慢
     public Animation(int x, int y, int size, int frameDuration, ArrayList<Bitmap> frames) {
         this.timer = 0;
@@ -27,7 +28,7 @@ public class Animation {
         if (index >= frames.size()) {
             return false;
         } else {
-            canvas.drawBitmap(frames.get(index),null,new Rect(x,y,x+size,y+size),null);
+            canvas.drawBitmap(frames.get(index), null, new Rect(x, y, x + size, y + size), null);
         }
         return true;
     }

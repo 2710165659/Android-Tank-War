@@ -29,6 +29,7 @@ public class GameActivity extends AppCompatActivity {
         vkRight = findViewById(R.id.vk_right);
         vkAttack = findViewById(R.id.vk_attack);
         currentLevel = findViewById(R.id.currentLevel);
+        // 将控件添加到GameView中
         GameView gv = findViewById(R.id.game_view);
         gv.flushText();
         // 获取 Vibrator 服务
@@ -45,7 +46,7 @@ public class GameActivity extends AppCompatActivity {
         return tvPlayerLive;
     }
 
-    public TextView getCurrentLevel(){
+    public TextView getCurrentLevel() {
         return currentLevel;
     }
 

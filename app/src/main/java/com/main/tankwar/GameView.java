@@ -37,15 +37,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     // 图片资源
     private Bitmap elementGrass, elementSteel, elementWall, elementWater;
     private Bitmap playerTankU, playerTankD, playerTankL, playerTankR, playerBullet;
-    private Bitmap enemy1TankU, enemy1TankD, enemy1TankL, enemy1TankR,enemyBullet;
+    private Bitmap enemy1TankU, enemy1TankD, enemy1TankL, enemy1TankR, enemyBullet;
     private Bitmap enemy2TankU, enemy2TankD, enemy2TankL, enemy2TankR;
     private Bitmap enemy3TankU, enemy3TankD, enemy3TankL, enemy3TankR;
     private Bitmap home;
 
-    public static int cellSize,playerLiveCount;
+    public static int cellSize, playerLiveCount;
     private GameController gc;
     private final GameActivity activity;
-    private int currentLevel,maxLevel;
+    private int currentLevel, maxLevel;
 
     // 显示信息
     private TextView tvEnemyCount, tvPlayerLive, currentLevelShow;
@@ -56,9 +56,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     public GameView(Context context) {
         this(context, null);
     }
+
     public GameView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
+
     public GameView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         activity = (GameActivity) context;
@@ -67,33 +69,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     }
 
     @Override
-    public void surfaceCreated(@NonNull SurfaceHolder holder) {
-
-    }
-    @Override
-    public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
-
-    }
-    @Override
-    public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
-        mIsDrawing = false;
-    }
-
-    @Override
     public void run() {
         long lastDrawTime = System.nanoTime(); // 使用纳秒级时间
         final long nsPerUpdate = 1_000_000_000 / 60; // 每帧大约16.67毫秒
+
         while (mIsDrawing) {
-            // 记录当前时间
-            long now = System.nanoTime();
+            long nowTime = System.nanoTime();
+            // 更新游戏并绘制画面
             if (gc != null) {
-                upDateGame(); // 更新游戏并绘制画面
+                upDateGame();
             }
             // 控制帧率
-            long timeThisFrame = now - lastDrawTime;
+            long timeThisFrame = nowTime - lastDrawTime;//计算时间差
             if (timeThisFrame < nsPerUpdate) {
                 try {
-                    long sleepTime = nsPerUpdate - timeThisFrame;
+                    long sleepTime = (long) nsPerUpdate - timeThisFrame;
                     if (sleepTime > 0) {
                         synchronized (this) {
                             wait(sleepTime / 1_000_000, (int) (sleepTime % 1_000_000));
@@ -108,6 +98,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             lastDrawTime = System.nanoTime();
         }
     }
+
     //绘图逻辑，游戏更新
     private void upDateGame() {
         try {
@@ -156,6 +147,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         setKeepScreenOn(true);
         setFocusableInTouchMode(true);
 
+        mIsDrawing = false;
         cellSize = 38;
         // 加载资源
         loadBitmaps();
@@ -166,14 +158,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
 
     private void newGame(int level) {
         // 重置游戏控制器和其他必要的变量
-        if(level==1) playerLiveCount = 5;
+        if (level == 1) playerLiveCount = 5;
         gc = new GameController(level);//游戏控制中心
         currentLevel = level;//当前关卡
         maxLevel = 3;//最大关卡
         AnimationManager.reStart();//动画刷新
 
         // 设置绘制标志，开始绘制，开启游戏线程
-        if(!mIsDrawing){
+        if (!mIsDrawing) {
             mIsDrawing = true;
             new Thread(this).start();
         }
@@ -208,6 +200,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         // 启动更新
         handler.post(updateTextRunnable);
     }
+
     private void loadBitmaps() {
         // 地图
         elementGrass = BitmapFactory.decodeResource(getResources(), R.drawable.element_grass);
@@ -238,6 +231,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         // 家
         home = BitmapFactory.decodeResource(getResources(), R.drawable.home);
     }
+
     private void loadAnimations() {
         // 敌人生成
         AnimationManager.enemyBorn.clear();
@@ -290,6 +284,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             drawGameObject(c, playerBullet, gc.playerTank.bullet);
         }
     }
+
     private void drawEnemies(Canvas c) {
         // 绘制敌人坦克
         for (EnemyTank e : gc.enemies) {
@@ -297,7 +292,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                 Direction dir = e.dir;
                 switch (dir) {
                     case UP:
-                        switch (e.type){
+                        switch (e.type) {
                             case ENEMY1:
                                 drawGameObject(c, enemy1TankU, e);
                                 break;
@@ -310,7 +305,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                         }
                         break;
                     case DOWN:
-                        switch (e.type){
+                        switch (e.type) {
                             case ENEMY1:
                                 drawGameObject(c, enemy1TankD, e);
                                 break;
@@ -323,7 +318,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                         }
                         break;
                     case LEFT:
-                        switch (e.type){
+                        switch (e.type) {
                             case ENEMY1:
                                 drawGameObject(c, enemy1TankL, e);
                                 break;
@@ -336,7 +331,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                         }
                         break;
                     case RIGHT:
-                        switch (e.type){
+                        switch (e.type) {
                             case ENEMY1:
                                 drawGameObject(c, enemy1TankR, e);
                                 break;
@@ -356,6 +351,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             }
         }
     }
+
     private void drawGrass(Canvas c) {
         for (MapElement e : gc.map) {
             if (Objects.requireNonNull(e.type) == MapElementType.GRASS) {
@@ -363,6 +359,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             }
         }
     }
+
     private void drawMap(Canvas c) {
         for (MapElement e : gc.map) {
             switch (e.type) {
@@ -378,17 +375,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             }
         }
     }
+
     private void drawHome(Canvas c) {
         c.drawBitmap(home, null, new Rect(gc.home.x, gc.home.y, gc.home.x + gc.home.size,
                 gc.home.y + gc.home.size), null);
     }
+
     private void drawGameObject(Canvas c, Bitmap bitmap, GameObject g) {
         c.drawBitmap(bitmap, null, new Rect(g.x, g.y, g.x + g.size, g.y + g.size), null);
     }
 
 
-
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
+
     private void gameOver() {
         mIsDrawing = false;
         mainHandler.post(new Runnable() {
@@ -407,9 +406,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             }
         });
     }
+
     private void gameSuccessful() {
         mIsDrawing = false;
-        if(currentLevel != maxLevel){
+        if (currentLevel != maxLevel) {
             mainHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -425,8 +425,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                     alertDialog.show();  // 显示对话框
                 }
             });
-        }
-        else{
+        } else {
             mainHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -443,5 +442,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                 }
             });
         }
+    }
+
+
+    @Override
+    public void surfaceCreated(@NonNull SurfaceHolder holder) {
+    }
+
+    @Override
+    public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
+    }
+
+    @Override
+    public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
     }
 }

@@ -6,7 +6,7 @@ public class MoveObject extends GameObject {
     public Direction dir;
     public int speed;
 
-    public MoveObject(Direction dir, int speed, int x, int y,int size) {
+    public MoveObject(Direction dir, int speed, int x, int y, int size) {
         super(x, y, 0);
         this.size = size;
         this.dir = dir;

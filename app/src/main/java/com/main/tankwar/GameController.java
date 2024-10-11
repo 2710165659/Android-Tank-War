@@ -18,12 +18,12 @@ public class GameController {
     static public int playerSpeed = 9;
     static public int bulletSpeed = 14;
 
-    static public int enemy1Speed=9,enemy1RemainLives=0;// 移动快的敌人
-    static public double enemy1P1=0.4,enemy1P2=0.6,enemy1P3=0.8;
-    static public int enemy2Speed=6,enemy2RemainLives=1;// 普通敌人
-    static public double enemy2P1=0.6,enemy2P2=0.4,enemy2P3=0.9;
-    static public int enemy3Speed=3,enemy3RemainLives=2;// 移动慢的敌人
-    static public double enemy3P1=0.5,enemy3P2=0.2,enemy3P3=1;
+    static public int enemy1Speed = 9, enemy1RemainLives = 0;// 移动快的敌人
+    static public double enemy1P1 = 0.4, enemy1P2 = 0.6, enemy1P3 = 0.8;
+    static public int enemy2Speed = 6, enemy2RemainLives = 1;// 普通敌人
+    static public double enemy2P1 = 0.6, enemy2P2 = 0.4, enemy2P3 = 0.9;
+    static public int enemy3Speed = 3, enemy3RemainLives = 2;// 移动慢的敌人
+    static public double enemy3P1 = 0.5, enemy3P2 = 0.2, enemy3P3 = 1;
 
     // 地图元素
     public ArrayList<MapElement> map;
@@ -113,7 +113,7 @@ public class GameController {
             //计时开始
             timer++;
             //播放一次性动画，锁定下一个要生成的敌人
-            if (!isGenerating && timer>=0) {
+            if (!isGenerating && timer >= 0) {
                 for (EnemyTank e : enemies) {
                     if (!e.visible && e.remainingLives >= 0) {
                         nextBornTank = e;//下一个敌人
@@ -124,15 +124,14 @@ public class GameController {
                 }
             }
             // 动画到敌人生成间隔间隔
-            if (nextBornTank!=null && timer > 60) {
+            if (nextBornTank != null && timer > 60) {
                 nextBornTank.visible = true;
                 nextBornTank = null;
 
                 //两次敌人生成间隔
-                if(currentEnemyCount==0){
+                if (currentEnemyCount == 0) {
                     timer = 0;
-                }
-                else{
+                } else {
                     timer = -120;
                 }
 

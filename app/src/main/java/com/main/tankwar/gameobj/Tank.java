@@ -13,7 +13,7 @@ public abstract class Tank extends MoveObject {
     public int remainingLives;
     public boolean visible;
 
-    public Tank(Direction dir, int speed, int x, int y,int remainingLives) {
+    public Tank(Direction dir, int speed, int x, int y, int remainingLives) {
         super(dir, speed, GameView.cellSize * x, GameView.cellSize * y, 0);
         this.remainingLives = remainingLives;
     }
@@ -39,15 +39,17 @@ public abstract class Tank extends MoveObject {
 
     public void hurt() {
         remainingLives -= 1;
-        if(remainingLives == -1){
-            AnimationManager.addTankDestroy(x,y);
+        if (remainingLives == -1) {
+            AnimationManager.addTankDestroy(x, y);
             visible = false;
         }
     }
 
-    protected final void createBullet(){
-        bullet = new Bullet (gc);
-    };
+    protected final void createBullet() {
+        bullet = new Bullet(gc);
+    }
+
+    ;
 
     public final void shootBullet() {
         if (!bullet.visible) {
@@ -72,7 +74,7 @@ public abstract class Tank extends MoveObject {
         }
     }
 
-    public final void setGC(GameController gameController){
+    public final void setGC(GameController gameController) {
         this.gc = gameController;
         createBullet();
     }

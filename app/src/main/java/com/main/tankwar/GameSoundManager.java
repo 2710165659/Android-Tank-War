@@ -31,6 +31,7 @@ public class GameSoundManager {
 
 
     }
+
     // 播放游戏开始声音的方法
     public static void playGameStart() {
         soundPool.play(1, 0.13f, 0.13f, 0, 0, 1.0f);
