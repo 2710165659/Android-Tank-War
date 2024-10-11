@@ -125,8 +125,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
 
             //绘图
             mCanvas.drawColor(Color.BLACK);
-            drawEnemies(mCanvas);
             drawMap(mCanvas);
+            drawEnemies(mCanvas);
             drawPlayer(mCanvas);
             drawGrass(mCanvas);
             drawHome(mCanvas);
