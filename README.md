@@ -26,9 +26,9 @@
 4. 增加更多的音效、动画。
 5. **特殊游戏道具**：如暂时无敌，增加移动速度，秒杀敌人等。
 ## 游戏截图
-![1.jpg](readmeimgs/1.jpg)
-![2.jpg](readmeimgs/2.jpg)
-![3.jpg](readmeimgs/3.jpg)
+![1.jpg](https://s2.loli.net/2024/10/11/LaxthiBH2Om41KS.jpg)
+![2.jpg](https://s2.loli.net/2024/10/11/kL2hliBVNIXC9v6.jpg)
+![3.jpg](https://s2.loli.net/2024/10/11/HJiVnDzejCIsMSg.jpg)
 ## 使用方式
 运行apk查看release发行版本。代码调试自行导入Android Studio运行。
 
