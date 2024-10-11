@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/menu_bg">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="173dp"
+        android:layout_marginBottom="32dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/menu_title" />
+
+    <ImageButton
+        android:id="@+id/btnSingleStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/menu_single_start"
+        android:background="@drawable/border_single_start"/>
+</LinearLayout>

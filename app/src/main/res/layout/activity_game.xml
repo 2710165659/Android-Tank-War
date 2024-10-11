@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    >
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="20"
+        android:background="@color/virtual_keyboard_bg"
+        >
+        <LinearLayout
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/current_level"
+                android:textColor="@color/text"
+                android:textSize="20sp"
+                android:layout_gravity="center_horizontal" />
+            <TextView
+                android:id="@+id/currentLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/zero"
+                android:textColor="@color/text"
+                android:textSize="20sp"
+                android:layout_gravity="center_horizontal" />
+        </LinearLayout>
+
+<!--        上下左右按钮-->
+        <com.main.tankwar.CustomImageButton
+            android:id="@+id/vk_up"
+            android:contentDescription="@string/上"
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:scaleType="fitCenter"
+            android:maxHeight="50dp"
+            android:background="@drawable/btn_vk"
+            android:src="@drawable/vk_up"
+            android:layout_above="@id/vk_left"
+            android:layout_centerHorizontal="true"/>
+        <com.main.tankwar.CustomImageButton
+            android:id="@+id/vk_down"
+            android:contentDescription="@string/下"
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:scaleType="fitCenter"
+            android:maxHeight="50dp"
+            android:background="@drawable/btn_vk"
+            android:src="@drawable/vk_down"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="50dp"
+            />
+        <com.main.tankwar.CustomImageButton
+            android:id="@+id/vk_left"
+            android:contentDescription="@string/左"
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:scaleType="fitCenter"
+            android:maxHeight="50dp"
+            android:background="@drawable/btn_vk"
+            android:src="@drawable/vk_left"
+            android:layout_above="@id/vk_down"
+            android:layout_toLeftOf="@id/vk_down"/>
+        <com.main.tankwar.CustomImageButton
+            android:id="@+id/vk_right"
+            android:contentDescription="@string/右"
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:scaleType="fitCenter"
+            android:maxHeight="50dp"
+            android:background="@drawable/btn_vk"
+            android:src="@drawable/vk_right"
+            android:layout_above="@id/vk_down"
+            android:layout_toRightOf="@id/vk_down"/>
+
+    </RelativeLayout>
+
+    <com.main.tankwar.GameView
+        android:id="@+id/game_view"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="60" />
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="20"
+        android:background="@color/game_info">
+        <LinearLayout
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enemy_count"
+                android:textColor="@color/text"
+                android:textSize="20sp"
+                android:layout_gravity="center_horizontal"/>
+            <TextView
+                android:id="@+id/tvEnemyCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/zero"
+                android:textColor="@color/text2"
+                android:textSize="20sp"
+                android:layout_gravity="center_horizontal"/>
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lives"
+                android:textColor="@color/text"
+                android:textSize="20sp"
+                android:layout_gravity="center_horizontal"/>
+            <TextView
+                android:id="@+id/tvLivesCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/zero"
+                android:textColor="@color/text2"
+                android:textSize="20sp"
+                android:layout_gravity="center_horizontal"/>
+
+
+        </LinearLayout>
+        <ImageButton
+            android:id="@+id/vk_attack"
+            android:contentDescription="@string/攻击按钮"
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:scaleType="fitCenter"
+            android:maxHeight="50dp"
+            android:background="@drawable/btn_vk"
+            android:src="@drawable/vk_attack"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="100dp" />
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Tankwar</string>
+    <string name="enemy_count">剩余敌人数量</string>
+    <string name="lives">剩余生命数</string>
+    <string name="zero">0</string>
+    <string name="攻击按钮"> </string>
+    <string name="上"> </string>
+    <string name="下"> </string>
+    <string name="左"> </string>
+    <string name="右"> </string>
+    <string name="开始游戏"> </string>
+    <string name="current_level">当前关卡</string>
+</resources>
