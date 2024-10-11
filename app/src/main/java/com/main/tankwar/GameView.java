@@ -10,6 +10,7 @@ import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.ImageButton;
@@ -23,7 +24,6 @@ import com.main.tankwar.enums.MapElementType;
 import com.main.tankwar.gameobj.EnemyTank;
 import com.main.tankwar.gameobj.GameObject;
 import com.main.tankwar.gameobj.MapElement;
-import com.main.tankwar.utlis.GameUtils;
 
 import java.util.Objects;
 
@@ -31,7 +31,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     private SurfaceHolder mSurfaceHolder;
     //绘图的Canvas
     private Canvas mCanvas;
-    //子线程标志位
+    //子线程标志位，游戏是否在运行
     private boolean mIsDrawing;
 
     // 图片资源
@@ -46,7 +46,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     private GameController gc;
     private final GameActivity activity;
     private int currentLevel,maxLevel;
-    private volatile boolean isRunning;//游戏线程是否运行
 
     // 显示信息
     private TextView tvEnemyCount, tvPlayerLive, currentLevelShow;
@@ -63,16 +62,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     public GameView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         activity = (GameActivity) context;
-        mIsDrawing = false;
-        isRunning = true;
+        // 初始化View
         initView();
     }
 
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder holder) {
-        mIsDrawing = true;
-        //开启子线程
-        new Thread(this).start();
+
     }
     @Override
     public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
@@ -82,34 +78,36 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
         mIsDrawing = false;
     }
+
     @Override
     public void run() {
         long lastDrawTime = System.nanoTime(); // 使用纳秒级时间
-        final double nsPerUpdate = 1_000_000_000.0 / 60.0; // 每帧大约16.67毫秒
+        final long nsPerUpdate = 1_000_000_000 / 60; // 每帧大约16.67毫秒
         while (mIsDrawing) {
             // 记录当前时间
             long now = System.nanoTime();
-
-            // 更新游戏逻辑
             if (gc != null) {
-                upDateGame();
+                upDateGame(); // 更新游戏并绘制画面
             }
-            // 计算从上次绘制到现在的时间差
+            // 控制帧率
             long timeThisFrame = now - lastDrawTime;
-            // 如果这一帧花费的时间少于目标时间，则睡眠剩余的时间
             if (timeThisFrame < nsPerUpdate) {
                 try {
-                    Thread.sleep((long) ((nsPerUpdate - timeThisFrame) / 1_000_000.0));
+                    long sleepTime = nsPerUpdate - timeThisFrame;
+                    if (sleepTime > 0) {
+                        synchronized (this) {
+                            wait(sleepTime / 1_000_000, (int) (sleepTime % 1_000_000));
+                            // 不用Thread.sleep((long) ((nsPerUpdate - timeThisFrame) / 1_000_000.0));
+                            // 当前线程会释放它所持有的该对象的锁，而不是反复休眠唤醒
+                        }
+                    }
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Log.e("GameView", Objects.requireNonNull(e.getMessage()));
                 }
             }
-
-            // 更新 lastDrawTime 为这次绘制的时间
             lastDrawTime = System.nanoTime();
         }
     }
-
     //绘图逻辑，游戏更新
     private void upDateGame() {
         try {
@@ -165,6 +163,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         // 开始游戏
         newGame(1);
     }
+
     private void newGame(int level) {
         // 重置游戏控制器和其他必要的变量
         if(level==1) playerLiveCount = 5;
@@ -173,9 +172,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         maxLevel = 3;//最大关卡
         AnimationManager.reStart();//动画刷新
 
-        // 设置绘制标志，开始绘制
-        mIsDrawing = true;
-        if(!isRunning) new Thread(this).start();
+        // 设置绘制标志，开始绘制，开启游戏线程
+        if(!mIsDrawing){
+            mIsDrawing = true;
+            new Thread(this).start();
+        }
     }
 
     public void flushText() {
@@ -390,7 +391,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
     private void gameOver() {
         mIsDrawing = false;
-        isRunning = false;
         mainHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -409,7 +409,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     }
     private void gameSuccessful() {
         mIsDrawing = false;
-        isRunning = false;
         if(currentLevel != maxLevel){
             mainHandler.post(new Runnable() {
                 @Override
