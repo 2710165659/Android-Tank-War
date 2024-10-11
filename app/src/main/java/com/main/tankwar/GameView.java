@@ -456,4 +456,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     @Override
     public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
     }
+
+    public void stop() {
+        // 停止游戏线程
+        mIsDrawing = false;
+    }
 }

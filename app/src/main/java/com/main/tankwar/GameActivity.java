@@ -12,6 +12,8 @@ public class GameActivity extends AppCompatActivity {
     private TextView tvEnemyCount, tvPlayerLive, currentLevel;
     private CustomImageButton vkUp, vkDown, vkLeft, vkRight;
     private ImageButton vkAttack;
+
+    private GameView gv;
     public static Vibrator vibrator;
 
     @Override
@@ -30,7 +32,7 @@ public class GameActivity extends AppCompatActivity {
         vkAttack = findViewById(R.id.vk_attack);
         currentLevel = findViewById(R.id.currentLevel);
         // 将控件添加到GameView中
-        GameView gv = findViewById(R.id.game_view);
+        gv = findViewById(R.id.game_view);
         gv.flushText();
         // 获取 Vibrator 服务
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
@@ -68,5 +70,12 @@ public class GameActivity extends AppCompatActivity {
 
     public ImageButton getVkAttack() {
         return vkAttack;
+    }
+
+    // 重写onDestroy方法，在activity销毁时停止游戏
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        gv.stop();
     }
 }
