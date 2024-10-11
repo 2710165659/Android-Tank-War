@@ -83,7 +83,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             long timeThisFrame = nowTime - lastDrawTime;//计算时间差
             if (timeThisFrame < nsPerUpdate) {
                 try {
-                    long sleepTime = (long) nsPerUpdate - timeThisFrame;
+                    long sleepTime = nsPerUpdate - timeThisFrame;
                     if (sleepTime > 0) {
                         synchronized (this) {
                             wait(sleepTime / 1_000_000, (int) (sleepTime % 1_000_000));
