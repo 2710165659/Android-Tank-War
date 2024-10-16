@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="menu_bg">#000000</color>
-    <color name="game_bg">#000000</color>
-    <color name="virtual_keyboard_bg">#7F7F7F</color>
-    <color name="game_info">#7F7F7F</color>
-    <color name="text">#FBCBCB</color>
-    <color name="text2">#D0B5B5</color>
-</resources>
